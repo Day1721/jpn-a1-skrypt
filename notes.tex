@@ -1,0 +1,591 @@
+% !TeX program = xelatex
+% !TeX encoding = UTF-8
+\documentclass[10pt, a4paper]{article}
+
+\usepackage{xeCJK}
+\usepackage{polski}
+\usepackage{ruby}
+\usepackage{multicol}
+\usepackage{tabularx}
+\usepackage{pst-node}% http://ctan.org/pkg/pst-node
+\usepackage{amsmath}
+\usepackage{color}
+\usepackage{hyperref}
+\usepackage{titlesec}
+
+\xeCJKsetup{CJKmath=true}
+\setCJKmainfont[BoldFont=AozoraMincho-bold,AutoFakeSlant=0.15]{Aozora Mincho}
+\renewcommand{\rubysize}{0.5} % default: 0.4
+\hypersetup{
+	colorlinks,
+	citecolor=black,
+	filecolor=black,
+	linkcolor=black,
+	urlcolor=black
+}
+\setcounter{tocdepth}{3}
+\setcounter{secnumdepth}{3}
+
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+
+\newcommand{\kanji}[4]{
+	\begin{tabular}{c}
+		{\fontsize{50}{60}\selectfont #1} \\
+		#2 \\
+		Jap: #3 \\
+		Ch: #4 \\
+	\end{tabular}
+}
+
+\newcommand{\vocab}[3]{\ruby{#1}{#2} : #3}
+
+\def\isFurigana{1}
+\newcommand{\fur}[3][2]{\ifnum2=#1\if\isFurigana1
+			\ruby{#2}{#3}
+		\else
+			#2
+		\fi
+	\else
+		\ifnum1=#1
+			\ruby{#2}{#3}
+		\else
+			#2
+		\fi
+	\fi
+}
+
+\newcommand{\wordArrow}[2]{\ncdiag[nodesep=2pt,linewidth=0.5pt,arm=.3,linearc=.2,angle=90]{->}{#1}{#2}}
+\newcommand{\boxWord}[1]{\fbox{\strut#1}}
+
+\begin{document}
+	\title{Skrypt do lektoratu z j. Japońskiego na podstawie notatek z zajęć}
+	\maketitle
+	\newpage
+	
+	\tableofcontents
+	\newpage
+	
+	\section{Hiragana}
+	{\large \textit{Podstawowe pismo (litery) japońskie.}}\\\\
+	W przypadku gdy romanizacja nie zgadza się z poprawnym odczytem, będzie on obok za pionową kreską "po polsku" ('|') \\
+	\def\arraystretch{1.25}%
+	\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+		\hline
+		ん & わ & ら & や & ま & は & な & た & さ & か & あ\\
+		(n\footnotemark) & (wa) & (ra) & (ya) & (ma) & (ha) & (na) & (ta) & (sa) & (ka) & (a) \\
+		\hline
+		& & り & & み & ひ & に & ち & し & き & い \\
+		& & (ri) & & (mi) & (hi) & (ni) & (chi|ci) & (shi|si) & (ki) & (i) \\
+		\hline
+		& & る & ゆ & む & ふ & ぬ & つ & す & く & う \\
+		& & (ru) & (yu) & (mu) & (fu\footnotemark) & (nu) & (tsu) & (su) & (ku) & (u) \\
+		\hline
+		& & れ & & め & へ & ね & て & せ & け & え \\
+		& & (re) & & (me) & (he) & (ne) & (te) & (se) & (ke) & (e) \\
+		\hline
+		& を & ろ & よ & も & ほ & の & と & そ & こ & お \\
+		& (o\footnotemark) & (ro) & (yo) & (mo) & (ho) & (no) & (to) & (so) & (ko) & (o) \\
+		\hline
+	\end{tabular} \\ \\ \\
+	Jeśli w górnym prawym rogu jednej z liter występują dwie kreski (t.zw. dakuten), to jest ona "odźwięczana". Przykłady (pierwszy wiersz $\uparrow$ + wyjątki wymowy): \\
+	\def\arraystretch{0.75}%
+	\begin{tabular}{c}か \\ (ka) \end{tabular} $\to$ \begin{tabular}{c}が \\ (ga) \end{tabular} \\
+	\begin{tabular}{c}さ \\ (sa) \end{tabular} $\to$ \begin{tabular}{c}ざ \\ (za) \end{tabular} \\
+	\begin{tabular}{c}た \\ (ta) \end{tabular} $\to$ \begin{tabular}{c}だ \\ (da) \end{tabular} \\
+	\begin{tabular}{c}は \\ (ha) \end{tabular} $\to$ \begin{tabular}{c}ば \\ (ba) \end{tabular} \\
+	\begin{tabular}{c}し \\ (shi) \end{tabular} $\to$ \begin{tabular}{c}じ \\ (ji|dzi) \end{tabular} \\
+	\begin{tabular}{c}す \\ (su) \end{tabular} $\to$ \begin{tabular}{c}ず \\ (zu|dzu) \end{tabular} \\
+	\begin{tabular}{c}ち \\ (chi) \end{tabular} $\to$ \begin{tabular}{c}ぢ \\ (ji|dzi) \end{tabular} \\
+	\begin{tabular}{c}つ \\ (tsu) \end{tabular} $\to$ \begin{tabular}{c}つ \\ (zu|dzu) \end{tabular} \\ \\
+	Jeśli w górnym prawym rogu jednej z liter "h-" występuje kółko (t.zw. handakuten), to jest ona zmieniana na "p-". Przykład: \\
+	\begin{tabular}{c}は \\ (ha) \end{tabular} $\to$ \begin{tabular}{c}ぱ \\ (pa) \end{tabular} \\
+	
+	\footnotetext[1]{przed literami na 'm', 'b', 'p' - czytane jako 'm', np. こんばんは(kombanwa)}
+	\footnotetext[2]{coś pomiędzy 'fu' i 'hu'}
+	\footnotetext[3]{ogólnie 'wo', ale jako partykuła (czyli jedyne jej zastosowanie) czyta się 'o'}
+	
+	\newpage
+	\section{Katakana}
+	{\large \textit{Litery, w większości używane do zapisu wyrazów pochodzenia obcego (zwykle zapożyczenia z j. zachodnich)}}\\\\
+	\def\arraystretch{1.25}%
+	\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+		\hline
+		ン & ワ & ラ & ヤ & マ & ハ & ナ & タ & サ & カ & ア\\
+		(n) & (wa) & (ra) & (ya) & (ma) & (ha) & (na) & (ta) & (sa) & (ka) & (a) \\
+		\hline
+		& & リ & & ミ & ヒ & ニ & チ & シ & キ & イ \\
+		& & (ri) & & (mi) & (hi) & (ni) & (chi|ci) & (shi|si) & (ki) & (i) \\
+		\hline
+		& & ル & ユ & ム & フ & ヌ & ツ & ス & ク & ウ \\
+		& & (ru) & (yu) & (mu) & (fu) & (nu) & (tsu) & (su) & (ku) & (u) \\
+		\hline
+		& & レ & & メ & ヘ & ネ & テ & セ & ケ & エ \\
+		& & (re) & & (me) & (he) & (ne) & (te) & (se) & (ke) & (e) \\
+		\hline
+		& ヲ\footnotemark & ロ & ヨ & モ & ホ & ノ & ト & ソ & コ & オ \\
+		& (o) & (ro) & (yo) & (mo) & (ho) & (no) & (to) & (so) & (ko) & (o) \\
+		\hline
+	\end{tabular} \\ \\ \\
+	\def\arraystretch{0.75}%
+	Tak samo jak w hiraganie otrzymujemy 'p-' i wersje "dźwięczne" \\
+	Dodatkowo istnieje znak 'ー', używany do przedłużenia samogłoski porzedniej litery (np. コーヒー(koohii - kawa)) \\
+	\subsection{Rozszerzenia katakany}
+	Stosowane do zapisu dźwięków, nie istniejących normalnie w j. Japońskim \\
+	\begin{tabular}{c}ファ \\ (fa) \end{tabular}
+	\begin{tabular}{c}フィ \\ (fi) \end{tabular}
+	\begin{tabular}{c}フェ \\ (fe) \end{tabular}
+	\begin{tabular}{c}フォ \\ (fo) \end{tabular}
+	\begin{tabular}{c}ティ \\ (ti) \end{tabular}
+	\begin{tabular}{c}ディ \\ (di) \end{tabular}
+	\begin{tabular}{c}デュ \\ (dyu) \end{tabular}
+	\begin{tabular}{c}ヴ \\ (vu) \end{tabular}
+	\footnotetext[3]{prawie nie używany (np. przedwojenny zapis imienia かヲり)}
+	\newpage
+	
+	\section{Lekcja 1(10月3日)}
+	\subsection{Kanji}
+	\kanji{日}{Słońce, dzień}{ひ、-び、-か}{に、にち、じつ}
+	\kanji{木}{Drzewo}{き}{もく}
+	\kanji{本}{Książka, podstawa}{もと}{ほん}
+	\kanji{人}{Człowiek}{ひと}{じん、にん}
+	\subsection{Słowa}
+	\begin{multicols}{2}\noindent
+		\vocab{日本}{にほん}{Japonia} \\
+		\vocab{日本人}{にほんじん}{Japończyk} \\
+		\vocab{ポーランド}{}{Polska} \\
+		\vocab{日本ご}{にほんご}{Japoński (język)} \\
+		\vocab{本}{ほん}{książka} \\
+		\vocab{しんぶん}{}{gazeta} \\
+		\vocab{えんぴつ}{}{ołówek} \\
+		\vocab{はい}{}{tak} \\
+		\vocab{いいえ}{}{nie} \\
+		\vocab{かさ}{}{parasol} \\
+		\vocab{ペンケース}{}{piórnik} \\
+		\vocab{ランプ}{}{lampa} \\
+		\vocab{かみ}{}{papier} \\
+		\vocab{ペットボトル}{}{butelka (plastikowa)} \\
+		\vocab{みず}{}{woda} \\
+		\vocab{コップ}{}{kubek} \\
+		\vocab{かぎ}{}{klucze} \\
+		\vocab{ティッシュ}{}{chusteczki} \\
+		\vocab{スカーフー}{}{chusta} \\
+		\vocab{マフラー}{}{szalik} \\
+		\vocab{ジャケット}{}{kurtka} \\
+		\vocab{リンゴ}{}{jabłko} \\
+		\vocab{さいふ}{}{portfel} \\
+		\vocab{でんわ}{}{telefon} \\
+		\vocab{けいたいでんわ}{}{telefon komórkowy} \\
+		\vocab{ヘッドホン}{}{słuchawki} \\
+		\vocab{まきじゃく}{}{miarka} \\
+		\vocab{ぼうし}{}{czapka} \\
+		\vocab{おかね}{}{pieniądze} \\
+		\vocab{めがね}{}{okulary} \\
+		\vocab{サングラス}{}{okulary przeciwsłoneczne} \\
+		\vocab{くち}{}{usta} \\
+		\vocab{くちべに}{}{szminka} \\
+		\vocab{スプーン}{}{łyżka} \\
+		\vocab{チケット}{}{bilet} \\
+		\vocab{きっぷ}{}{bilet (na wszystko) (?)} \\
+		\vocab{うりば}{}{miejsce, gdzie się coś sprzedaje} \\
+		\vocab{ねこ}{}{kot} \\
+		\vocab{いぬ}{}{pies} \\
+		\vocab{じどうはんばいき}{}{automaty (np. z jedzeniem)} \\
+	\end{multicols}
+	\subsection{Wyrażenia}
+	{$\large \underset{\text{dzień dobry (po raz 1)}}{はじめまして。} \underset{\text{Ja}}{\rnode{L1W1A}{わたし}}\underset{\text{jeżeli chodzi o}}{\rnode{L1W1B}{は}}\ \underset{\text{Natalia (imię)}}{ナタリア}です。\underset{\text{coś w stylu "miło mi"}}{どうぞよろしく。}$} \wordArrow{L1W1B}{L1W1A} \\ 
+	\\ \\
+	これはほんです。: To jest książka.　\\
+	これはほんですか。: Czy to jest książka? \\
+	それはほんですか。: Czy tamto to jest książka? \\
+	これはほんじゃないです。: To nie jest książka.　\\
+	これはほんじゃありません。: To nie jest książka.　\\
+	しゃ、これはなんですか。: Więc co to jest? \\
+	これはなんですか。: Co to jest? \\
+	これはにほんごでなんですか。: Co to jest po Japońsku? \\
+	\newpage
+	\section{Lekcja 2(10月10日)}
+	\subsection{Kanji}
+	\kanji{先}{przed, wcześniej}{さき}{せん}
+	\kanji{生}{żyć, urodzić się}{なま、う、い、は}{せん}
+	\kanji{大}{duży}{おお}{たい、だい} 
+	\kanji{学}{nauka}{まな}{がく}
+	\subsection{Słowa}
+	\vocab{あい}{}{miłość} \\
+	\vocab{くうこう}{}{lotnisko} \\
+	\vocab{あおい}{}{niebieski}\\
+	\vocab{えき}{}{stacja}\\
+	\vocab{かお}{}{twarz}\\
+	\vocab{あき}{}{jesień}\\
+	\vocab{けが}{}{rana}\\
+	\vocab{つき}{}{księżyc}\\
+	\vocab{ちかてつ}{}{metro}\\
+	\vocab{がっこう}{}{szkoła}\\
+	\vocab{ざっし}{}{czasopismo, magazyn}\\
+	\vocab{カバン}{}{torebka} \\
+	\vocab{だれ}{}{kto} \\
+	\vocab{おはよう}{}{cześć} \\
+	\vocab{おはようございます}{}{dzień dobry (przed południem)} \\
+	\vocab{こんにちは}{}{dzień dobry (po południu)} \\
+	\vocab{こんばんは}{}{dobry wieczór} \\
+	\vocab{おやすみ}{}{dobranoc} \\
+	\vocab{さようなら}{}{żegnaj (na zawsze)} \\
+	\vocab{いってきます}{}{wychodzę (i planuję wrócić)} \\
+	\vocab{いってらっしゃい}{}{pójdź i wróć} \\
+	\vocab{ただいま}{}{wróciłem, już jestem} \\
+	\vocab{おかえり}{}{dobrze, że już jesteś} \\
+	\vocab{ごめんください}{}{mówimy, gdy wchodzimy do czyjegoś domu} \\
+	\vocab{しつれいします}{}{gdy wchodzimy do sali, profesora, na zak. rozmowy tel.} \\
+	\vocab{ありがとう(ございます)}{}{dziękuję(bardzo)} \\
+	\vocab{ありがとうございました}{}{dziękuję bardzo (coś się skończyło, np. zakupy, trening)} \\
+	\vocab{どうも}{}{dziękuję (mniej grzecznie) (どうも przed ありがとう - bardzo grzecznie)} \\
+	\vocab{サンキュー}{}{dzięki} \\
+	\vocab{どういたしまして}{}{nie ma za co} \\
+	\vocab{すみません}{}{excuse me, dziękuję - w jednej akcji} \\
+	\vocab{ごめん}{}{przepraszam} \\
+	\vocab{どうぞ}{}{proszę (jak np. podajemy coś)} \\
+	\vocab{いただきます}{}{dziekuję (częstowany dla przygotowującego)} \\
+	\vocab{ごちそうさま}{}{dziękuję za posiłek} \\
+	\vocab{おそまつさまでした}{}{proszę bardzo (po posiłku)} \\
+	\subsection{Gramatyka}
+	\textbf{\large ZAIMKI} \\
+	1.os.l.poj. (+たち$\to$ l.mn): \\
+	\begin{tabularx}{\textwidth}{@{}Y|Y@{}}
+		Kobiety & Mężczyźni \\
+		わたくし: formalnie & わたくし: formalnie \\
+		わたし: zwyczajnie & わたし: formalnie \\
+		あたし: nieformalnie & ぼく: zwyczajnie \\
+		& おれ: nieformalnie \\
+		& あたし: dla gejów \\
+	\end{tabularx}
+	2.os.l.poj. (+たち$\to$ l.mn): \\
+	あなた: 'kochanie' - kobieta do mężczyzny \\
+	あんた: zdenerwowane 'kochanie' - kobieta do mężczyzny \\
+	きみ: mężczyzna do koleżanki, do dziecka \\
+	おまえ: mężczyzna do przyjaciela/przyjaciółki \\
+	きさま/てめえ: wulgarne \\ \\
+	3.os.l.poj. (+たち/ら$\to$ l.mn): \\
+	かれ: on, chłopak \\
+	かのじょ: ona, dziewczyna
+	\subsection{Wyrażenia}
+	\rnode{L2W1A}{これ} \rnode{L2W1B}{は} \rnode{L2W2A}{わたし} \rnode{L2W2B}{の} \fur{本}{ほん}です。: To moja książka \wordArrow{L2W1B}{L2W1A} \wordArrow{L2W2B}{L2W2A} \\
+	それはぼくのカバンです。: To moja torebka. \\
+	それはたなかさんのめがねですか。: Czy to są okulary p. Tanaki? \\ \\
+	これは \rnode{L2W3A}{だれ} \rnode{L2W3B}{の} \rnode{L2W3C}{さいふ} ですか。: Czyj jest ten portfel? \wordArrow{L2W3B}{L2W3A} \wordArrow{L2W3C}{L2W3B} \\
+	大学のとしょかんの本のえ。\\
+	
+	\newpage
+	\section{Lekcja 3(10月17日)}
+	\subsection{Kanji}
+	\kanji{校}{Szkoła}{-}{こう}　
+	\kanji{小}{Mały}{ちい}{しょう}
+	\kanji{中}{Środek, wnętrze}{なか}{ちゅう}
+	\kanji{高}{Wysoki}{たか}{こう}
+	\subsection{Słowa}
+	\begin{multicols}{2}\noindent
+	\vocab{さとう}{}{cukier} \\
+	\vocab{せき}{}{kaszel} \\
+	\vocab{(お)すし}{}{sushi} \\
+	\vocab{(お)さけ}{}{alkohol} \\
+	\vocab{にほんしゅ}{}{jap. alkohol (sake)} \\
+	\vocab{あした}{}{jutro} \\
+	\vocab{らいしゅう}{}{nast. tydzień} \\
+	\vocab{わかりません}{}{nie rozumiem} \\
+	\vocab{おねがい(します)}{}{mam prośbę (na końcu zdania)} \\
+	\vocab{もしもし}{}{halo (przez telefon)} \\
+	\vocab{せいざ}{}{Jap. sposób siedzenia (na kolanach)} \\
+	\vocab{小さい}{ちいさい}{mały} \\
+	\vocab{学校}{がっこう}{szkoła} \\
+	\vocab{中}{なか}{środek, wnętrze} \\
+	\vocab{高い}{たかい}{wysoki} \\
+	\vocab{小学校}{しょうがっこう}{Podstawówka} \\
+	\vocab{小学生}{しょうがくせい}{Uczeń podstawówki} \\
+	\vocab{中学校}{ちゅうがっこう}{Gimnazjum} \\
+	\vocab{中学生}{ちゅうがくせい}{Gimnazjalista} \\
+	\vocab{高校}{こうこう}{Liceum} \\
+	\vocab{高校生}{こうこうせい}{Licealista}
+	\\
+	\vocab{ではまた}{}{na razie (najb. grzecznie)} \\
+	\vocab{じゃまた}{}{na razie} \\
+	\vocab{またね}{}{na razie} \\
+	\vocab{じゃね}{}{na razie} \\
+	\vocab{バイバイ}{}{na razie (najmn grzecznie)} \\
+	\vocab{またあした}{}{do jutra} \\
+	\vocab{またらいしゅう}{}{do zobaczenia za tydzień} \\\\
+	\end{multicols} 
+	\subsubsection{Kraje}
+	\begin{multicols}{2}\noindent
+	\vocab{日本}{にほん}{Japonia} \\
+	\vocab{ポーランド}{}{Polska} \\
+	\vocab{ロシア}{}{Rosja} \\
+	\vocab{きたちょうせん}{}{Korea Płn.} \\
+	\vocab{かんこく}{}{Korea Płd.} \\
+	\vocab{フィリピン}{}{Filipiny} \\
+	\vocab{スエーデン}{}{Szwecja} \\
+	\vocab{アルゼンチン}{}{Argentyna} \\
+	\vocab{ドイツ}{}{Niemcy} \\
+	\vocab{オーストラリア}{}{Australia} \\
+	\vocab{オランダ}{}{Holandia} \\
+	\vocab{カナダ}{}{Kanada} \\
+	\vocab{イタリア}{}{Włochy} \\
+	\vocab{ポルトガル}{}{Portugalia} \\
+	\vocab{アメリカ}{}{USA} \\
+	\vocab{メキシコ}{}{Meksyk} \\
+	\vocab{ちゅうごく}{}{Chiny} \\
+	\vocab{たいわん}{}{Taiwan} \\
+	\vocab{イギリス}{}{UK} \\
+	\vocab{フランス}{}{Francja} \\
+	\vocab{インド}{}{Indie} \\
+	\vocab{スペイン}{}{Hiszpania} \\
+	\vocab{アラブしゅちょうこくれんぽう}{}{Zjednoczone Emiraty Arabskie}\\
+	\end{multicols} 
+	\vocab{あてじ}{}{Zapis fonetyczny słów za pom. kanji, np. 亜米利加(あめりか)} 
+	\subsection{Gramatyka}
+	を(part.): biernik, dopełniacz (kogo? co?) \\
+	と łączy tylko rzeczowniki/zaimki!
+	\subsection{Wyrażenia}
+	なんですか。: Co to? \\
+	いくらですか。: Ile (to) kosztuje? \\
+	なんじですか。: Która godzina? \\
+	きょうしつはどこですか。: gdzie jest sala lekcyjna? \\
+	これをください。: Poproszę to./Kupuję to. \\
+	$\underset{\text{jeszcze}}{もう}\underset{\text{1 raz}}{いちど}\underset{\text{powiedzieć}}{いって}$ください。: Proszę powtórz. \\
+	ちょっとまってください。: Proszę, zaczekaj chwilkę. \\
+	わたしは\fur{日本人}{にほんじん}です。: Jestem Japończykiem. \\
+	たなかさんは\fur{日本}{にほん}の\fur{人}{ひと}です。: Pan Tanaka jest Japończykiem. (formalnie, grzeczniej) \\
+	- たなかさんはちゅうごくの\fur{人}{ひと}です。: Czy p. Tanaka jest Chińczykiem? \\
+	- いいえ、たなかさんはちゅうごくの\fur{人}{ひと}じゃないです。: Nie, p. Tanaka nie jest Chińczykiem. \\
+	\fur{日本}{にほん}のかた: Japończyk, jeszcze grzeczniej. \\
+	どこの\fur{人}{ひと}ですか。: Skąd jesteś? \\ \\
+	わたしは\rnode{L3W1A}{\boxWord{\fur{日本人}{にほんじん}とポーランド\fur{人}{じん}}}\rnode{L3W1B}{の}ハーフです。: Jestem w połowie Japończykiem i Polakiem. \wordArrow{L3W1B}{L3W1A} \\
+	
+	\newpage
+	\section{Lekcja 4(10月24日)}
+	\subsection{Kanji}
+	\kanji{子}{dziecko}{こ}{し}
+	\subsection{Słowa}
+	\begin{multicols}{2}\noindent
+		\vocab{さかな}{}{ryba} \\
+		\vocab{にく}{}{mięso} \\
+		\vocab{たぬき}{}{szop} \\
+		\vocab{ぶた}{}{świnia} \\
+		\vocab{ほっかいどう}{}{Hokkaido} \\
+		\vocab{あくま}{}{diabeł} \\
+		\vocab{さかなや}{}{sklep rybny} \\
+		\vocab{ゆき}{}{śnieg} \\
+		\vocab{こども}{}{dziecko} \\
+		\vocab{とうきょう}{}{Tokio} \\
+		\vocab{せんぱい}{}{starszy (osoba)} \\
+		\vocab{こうはい}{}{młodszy (osoba)} \\
+		\vocab{でんわばんごう}{}{numer telefonu} \\
+		\vocab{メール(アドレス)}{}{(adres) mailowy} \\
+		\vocab{えいご}{}{Angielski (język)} \\
+		\vocab{せんこう}{}{Kierunek studiów/specjalizacja}
+	\end{multicols}
+	\subsubsection{Kierunki studiów}
+	\begin{multicols}{2}\noindent
+		\vocab{かがく}{}{Chemia} \\
+		\vocab{ぶつりがく}{}{Fizyka} \\
+		\vocab{ほりつがく}{}{Prawo} \\
+		\vocab{みんぞくがく}{}{Etnologia} \\
+		\vocab{ポーランドご}{}{j. Polski} \\
+		\vocab{にんちかがく}{}{Kognitywistyka} \\
+		\vocab{しんりがく}{}{Psychologia} \\
+		\vocab{てつがく}{}{Filozofia} \\
+		\vocab{ロボットこうがく}{}{Automatyka} \\
+		\vocab{じょうほうかがく}{}{Informatyka}
+	\end{multicols} \noindent
+	\vocab{おうようげんごがく}{}{Lingwistyka stosowana} \\
+	\vocab{えいごきょういく}{}{Nauczanie j. Angielskiego} 
+	\subsubsection{Liczebniki}
+	\vocab{れい/ゼロ}{}{zero}
+	\begin{multicols}{2}\noindent
+		\vocab{いち}{}{jeden} \\
+		\vocab{に}{}{dwa} \\
+		\vocab{さん}{}{trzy} \\
+		\vocab{し(+よん、よ)}{}{cztery} \\
+		\vocab{ご}{}{pięć} \\
+		\vocab{ろく}{}{sześć} \\
+		\vocab{しち/なな}{}{siedem}　\\
+		\vocab{はち}{}{osiem} \\
+		\vocab{きゅう}{}{dziewięć} \\
+		\vocab{じゅう}{}{dziesięć} 
+	\end{multicols}\noindent
+	\begin{multicols}{2}\noindent
+		\vocab{じゅういち}{}{jedenaście} \\
+		\vocab{じゅうに}{}{dwanaście} \\
+		\vocab{じゅうさん}{}{trzynaście} \\
+		\vocab{じゅうよん}{}{czternaście} \\
+		\vocab{じゅうご}{}{pietnaście} \\
+		\vocab{じゅうろく}{}{szesnaście} \\
+		\vocab{じゅうなな/じゅうしち}{}{siedemnaście} \\
+		\vocab{じゅうはち}{}{osiemnaście} \\
+		\vocab{じゅうきゅう}{}{dziewiętnaście} \\
+		\vocab{\textcolor{red}{はたち}}{}{dwadzieścia}
+	\end{multicols}
+	\begin{multicols}{2}\noindent
+		\vocab{さんじゅう}{}{trzydzieści} \\
+		\vocab{よんじゅう}{}{czterdzieści} \\
+		\vocab{ごじゅう}{}{pięćdziesiąt} \\
+		\vocab{ろくじゅう}{}{sześćdziesiąt} \\
+		\vocab{ななじゅう}{}{siedemdziesiąt} \\
+		\vocab{はちじゅう}{}{osiemdziesiąt} \\
+		\vocab{きゅうじゅう}{}{dziewięćdziesiąt} \\
+		\vocab{ひゃく}{}{sto}
+	\end{multicols}
+	\begin{multicols}{2}\noindent
+		\vocab{ひゃく}{}{sto} \\
+		\vocab{にひゃく}{}{dwieście} \\
+		\vocab{\textcolor{red}{さんびゃく}}{}{trzysta} \\
+		\vocab{よんひゃく}{}{czterysta} \\
+		\vocab{ごひゃく}{}{pięćset} \\
+		\vocab{\textcolor{red}{ろっぴゃく}}{}{sześćset} \\
+		\vocab{ななひゃく}{}{siedemset} \\
+		\vocab{\textcolor{red}{はっぴゃく}}{}{osiemset} \\
+		\vocab{きゅうひゃく}{}{dziewięćset} \\
+		\vocab{せん}{}{tysiąc} 
+	\end{multicols}
+	\begin{multicols}{2}\noindent
+		\vocab{せん}{}{tysiąc} \\
+		\vocab{にせん}{}{dwa　tysiące} \\
+		\vocab{\textcolor{red}{さんぜん}}{}{trzy tysiące} \\
+		\vocab{よんせん}{}{cztery tysiące} \\
+		\vocab{ごせん}{}{pięć tysięcy} \\
+		\vocab{ろくせん}{}{sześć tysięcy} \\
+		\vocab{ななせん}{}{siedem tysięcy} \\
+		\vocab{はっせん}{}{osiem tysięcy} \\
+		\vocab{きゅうせん}{}{dziewięć tysięcy} \\
+		\vocab{いちまん}{}{dziesięć tysiecy}
+	\end{multicols}
+	\begin{multicols}{2}\noindent
+		\vocab{いちまん}{}{dziesięć tysiecy} \\
+		\vocab{にまん}{}{dwadzieścia tysiecy}
+		\vocab{さんまん}{}{trzydzieści tysiecy} \\
+		\vocab{よんまん}{}{czterdzieści tysiecy} \\
+		\vocab{ごまん}{}{pięćdziesiąt tysiecy} \\
+		\vocab{ろくまん}{}{sześćdziesiąt tysiecy} \\
+		\vocab{ななまん}{}{siedemdziesiąt tysiecy} \\
+		\vocab{はちまん}{}{osiemdziesiąt tysiecy} \\
+		\vocab{きゅうまん}{}{dziewięćdziesiąt tysiecy} \\
+		\vocab{じゅうまん}{}{sto tysiecy}
+	\end{multicols}
+	\vocab{ひゃくまん}{}{milion} \\
+	\vocab{いっせんまん}{}{dziesięć milionów} \\
+	\vocab{いちおく}{}{sto milionów}
+	\subsection{Fakty}
+	\subsubsection{Imiona}
+	Imiona Japońskie (Damskie): \\
+	1) na \textasciitilde\fur{子}{こ}　\\
+	2) na \textasciitilde{み} (み jako piękny w kanji) \\
+	Imiona Japońskie (Damskie): \\
+	na \textasciitilde{ろう} 
+	\subsubsection{Numer telefonu/email}
+	'-' w num. telefonu czytamy jako 'の', każdą cyfrę podajemy oddzielnie. \\
+	W mailu zaś: \\
+	　'@':アッと \\
+	　'．':どっと \\
+	　'\_':アンダーライン \\
+	　'-':ハイフン \\
+	　'L':エル \\
+	　'R':アル 
+	\subsection{Wyrażenia}
+	なんさいですか。: Ile masz lat?
+	\newpage
+	\section{Lekcja 5(10月31日)}
+	\subsection{Kanji}
+	\kanji{山}{Góra}{やま}{さん、ざん}
+	\kanji{田}{Pole ryżu}{た、だ}{でん}
+	\kanji{川}{Rzeka}{かわ、がわ}{せん}
+	\subsection{Słowa}
+	\begin{multicols}{2}\noindent
+		\vocab{かいしゃ}{}{firma} \\
+		\vocab{はなみ}{}{podziwianie kwitnącej wiśni} \\
+		\vocab{やっきょく}{}{apteka (przyszpitalna)} \\
+		\vocab{さる}{}{małpa (zwierzę)} \\
+		\vocab{ズオティ}{}{złoty (polski)} \\
+		\vocab{ユーロ}{}{euro} \\
+		\vocab{ドル}{}{dolar} \\
+		\vocab{ガム}{}{guma (do żucia)} \\
+		\vocab{フィルム}{}{film (do aparatu)} \\
+		\vocab{でんち}{}{baterie} \\
+		\vocab{おかし}{}{"słodycze" (niekoniecznie słodkie)} \\
+		\vocab{きょうかい}{}{Kościół katolicki} \\
+		\vocab{(お)てら}{}{świątynia Buddyjska} \\
+		\vocab{じんじゃ}{}{świątynia Shinto} \\
+		\vocab{レストラン}{}{restauracja} \\
+		\vocab{いざかや}{}{bar (z zagryzkami i alkoholem)} \\
+		\vocab{えいがかん}{}{kino} \\
+		\vocab{えき}{}{dworzec} \\
+		\vocab{びょういん}{}{szpital} \\
+		\vocab{びよういん}{}{salon piękności} \\
+		\vocab{けいさつ}{}{policja} \\
+		\vocab{けいさつしょ}{}{komenda policji} \\
+		\vocab{こうばん}{}{posterunek policji} \\
+		\vocab{ちゅうしゃじょう}{}{parking} \\
+		\vocab{プール}{}{basen} \\
+		\vocab{ジム}{}{siłownia} \\
+		\vocab{サーカス}{}{cyrk} \\
+		\vocab{トイレ}{}{łazienka} \\
+		\vocab{おてあらい}{}{łazienka (bardzo grzecznie)} \\
+		\vocab{やっきょく}{}{apteka z lek. na receptę} \\
+		\vocab{くすりや}{}{sklep z lekarstwami (bez recepty)} \\
+		\vocab{さかなや}{}{sklep z rybami} \\
+		\vocab{にくや}{}{sklep mięsny} \\
+		\vocab{ほんや}{}{księgarnia} \\
+		\vocab{はなや}{}{kwiaciarnia} \\
+		\vocab{パンや}{}{piekarnia} \\
+		\vocab{デパート}{}{centrum handlowe} \\
+		\vocab{スーパー}{}{supermarket} \\
+		\vocab{コンビニ}{}{sklep całodobowy} \\
+		\vocab{としょかん}{}{biblioteka} \\
+		\vocab{ぎんこう}{}{bank} \\
+		\vocab{ゆうびんきょく}{}{poczta} \\
+		\vocab{しょうぼうしょ}{}{straż pożarna} \\
+		\vocab{しやくしょ}{}{ratusz} \\
+		\vocab{きっさてん}{}{kawiarnia} \\
+		\vocab{カフェ}{}{kawiarnia} \\
+		\vocab{ガソリンスタンド}{}{stacja benzynowa} \\
+		\vocab{こうえん}{}{park} \\
+		\vocab{げきじょう}{}{teatr} \\
+		\vocab{(お)しろ}{}{zamek} \\
+		\vocab{きゅうでん}{}{pałac (zamek/dworek)} \\
+		\vocab{大学}{だいがく}{uniwersytet} \\
+		\vocab{学校}{がっこう}{szkoła} \\
+		\vocab{みせ}{}{sklep (ogólnie)} \\
+		\vocab{たいしかん}{}{ambasada}
+	\end{multicols}
+	\subsubsection{Nazwiska(中、本、山、田、川)}
+	\vocab{田中}{たなか}{Tanaka} \\
+	\vocab{中田}{なかだ}{Nakada} \\
+	\vocab{川田}{かわた}{Kawata} \\
+	\vocab{山田}{やまだ}{Yamada} \\
+	\vocab{山川}{やまかわ}{Yamakawa} \\
+	\vocab{中山}{なかやま}{Nakayama} \\
+	\vocab{山中}{やまなか}{Yamanaka} \\
+	\vocab{山本}{やまもと}{Yamamoto} \\
+	\vocab{川本}{かわもと}{Kawamoto} \\
+	\vocab{中本}{なかもと}{Nakamoto} \\
+	\vocab{中川}{なかがわ}{Nakagawa}
+	\subsection{Gramatyka}
+	\subsubsection{これ}
+	これ: to, coś blisko, \\
+	それ: to, coś przy rozmówcy $\to$ dalej od nas, \\
+	あれ: to, coś daleko, \\
+	どれ: które?
+	\subsubsection{これ VS この}
+	Używając この/その/あの, mówimy o konkretnej rzeczy (np. この本、そこしんぶん) - po nich uż. rzeczownika
+	Używamy これ/それ/あれ, gdy mówimy ogólnie o jakiejś rzeczy (これはなんですか。) - po nich uż. partykuły
+	\subsection{Fakty}
+	\subsubsection{Pieniądze}
+	¥: yen(えん) (?)\\
+	Monety: $1, 5, 10, 50, 100, 500$ \\
+	Banknoty: $1000, \underset{\text{bardzo rzadki}}{2000}, 5000, 10000$ \\
+	Dla liczb kończących się na 'ん', końcówka \_\_んえん zmienia się w bardziej 'njen'(ンイェン) \\
+	100えんショップ: sklepy '100yenówki' (+8\% podatku) - tanie w miarę dobre rzeczy
+	\subsection{Wyrażenia}
+	 - なんねんせいですか。: na którym roku studiów jesteś?　\\
+	 - \fur{2}{に}ねんせい: 2 rok studiów. \\\\
+	 \_\_はいくらですか。: ile (to) kosztuje? \\
+	 \_\_は?えんです。: ? jenów \\
+	 この本はいくらですか。: ile kosztuje ta książka? \\
+	 いらっしゃいます。: "Zapraszamy" (używane np. przez sprzedawce sklepu) \\
+\end{document}
